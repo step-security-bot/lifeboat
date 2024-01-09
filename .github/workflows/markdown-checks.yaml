@@ -40,11 +40,16 @@ jobs:
           egress-policy: block
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: markdownlint-cli2-action
-        uses: DavidAnson/markdownlint-cli2-action@v14
+        uses: DavidAnson/markdownlint-cli2-action@455b6612a7b7a80f28be9e019b70abdd11696e4e # v14.0.0
 
   link-check:
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: gaurav-nelson/github-action-markdown-link-check@d53a906aa6b22b8979d33bc86170567e619495ec # v1.0.15
         with:

@@ -22,6 +22,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   analyze:
     name: Analyze
@@ -47,12 +50,17 @@ jobs:
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@eb238b55efaa70779f274895e782ed17c84f2895 # v2.6.1
+      with:
+        egress-policy: audit
+
     - name: Checkout repository
       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118 # v3.23.0
       with:
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
@@ -65,9 +73,9 @@ jobs:
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
+      uses: github/codeql-action/autobuild@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118 # v3.23.0
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118 # v3.23.0
       with:
         category: "/language:${{matrix.language}}"
